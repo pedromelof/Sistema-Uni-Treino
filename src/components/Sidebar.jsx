@@ -82,22 +82,6 @@ function SidebarContent({
             <IcMenu />
           </button>
         )}
-        <button className="sidebar-new-chat-btn" onClick={onNewChat}>
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            aria-hidden="true"
-          >
-            <line x1="12" y1="5" x2="12" y2="19" />
-            <line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
-          <span>Nova conversa</span>
-        </button>
       </div>
 
       <nav className="sidebar-nav-links" aria-label="Navegação primária">
@@ -110,62 +94,9 @@ function SidebarContent({
           <span className="sidebar-nav-emoji">🏋️</span>
           <span>Treinos</span>
         </NavLink>
-        <NavLink
-          to="/gerencia-lesoes"
-          className="sidebar-title-link-new"
-          onClick={onItemClick}
-          disabled={!token}
-        >
-          <span className="sidebar-nav-emoji">🩹</span>
-          <span>Lesões</span>
-        </NavLink>
       </nav>
 
-      <div className="sidebar-history-section">
-        <span className="sidebar-section-label">Recentes</span>
-        <nav className="sidebar-history-scroll" aria-label="Histórico de chats">
-          {chats?.length === 0 || !chats ? (
-            <span className="sidebar-empty">Nenhum chat ainda.</span>
-          ) : (
-            chats?.map((t) => (
-              <div
-                key={t.id}
-                className="sidebar-history-item-row"
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
-              >
-                <NavLink
-                  to={`/chat/${t.id}`}
-                  className="sidebar-history-item"
-                  onClick={onItemClick}
-                  style={{ flex: 1 }}
-                >
-                  <span className="sidebar-text-truncate">
-                    {(() => {
-                      const texto =
-                        t.titulo || t.lastMessage || "Conversa sem título";
-                      return texto?.length > 25
-                        ? `${texto.substring(0, 25)}...`
-                        : texto;
-                    })()}
-                  </span>
-                </NavLink>
-                <button
-                  className="sidebar-delete-chat-item"
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    onDeleteChat?.(t.id);
-                  }}
-                  aria-label="Excluir conversa"
-                >
-                  ×
-                </button>
-              </div>
-            ))
-          )}
-        </nav>
-      </div>
+      <div className="sidebar-history-section"></div>
 
       <div className="sidebar-profile-footer">
         <div className="sidebar-profile-user-info">
@@ -283,24 +214,7 @@ function Sidebar({
           >
             <IcMenu />
           </button>
-          <button
-            className="sidebar-square-icon-btn sidebar-square-icon-btn--primary"
-            onClick={handleNewChat}
-            title="Novo chat"
-            aria-label="Novo chat"
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-            >
-              <line x1="12" y1="5" x2="12" y2="19" />
-              <line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
-          </button>{" "}
+
           <NavLink
             to="/gerencia-treino"
             className="sidebar-collapsed-nav-item"
@@ -308,14 +222,6 @@ function Sidebar({
             onClick={onMobileClose}
           >
             <span className="sidebar-nav-emoji">🏋️</span>
-          </NavLink>
-          <NavLink
-            to="/gerencia-lesoes"
-            className="sidebar-collapsed-nav-item"
-            title="Lesões"
-            onClick={onMobileClose}
-          >
-            <span className="sidebar-nav-emoji">🩹</span>
           </NavLink>
         </div>
 

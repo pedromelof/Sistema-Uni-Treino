@@ -28,7 +28,7 @@ function Login() {
     }
     setLoading(true);
     try {
-      await login(form.email, form.senha);
+      const response = await login(form.email, form.senha);
       navigate("/novo-chat");
     } catch (e) {
       setErro("Credenciais inválidas. Verifique e tente novamente.");

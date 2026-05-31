@@ -106,40 +106,44 @@ function CrudTreino() {
     setIsLoading(true);
     const token = localStorage.getItem("token");
     if (token) {
-    try {
-      const response = await api.get("/v1/treinos", {
-        headers: {
-          "Content-Type": "application/json",
-          ...getAuthHeaders(),
-        },
-      });
-
-      if (response.operacaoFinalizada === false) {
-        throw new Error(
-          response.mensagem?.detalhe || "Falha ao buscar treinos.",
+      try {
+        const response = await api.get(
+          "https://servicetreino-unitreino.onrender.com/treinos",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              ...getAuthHeaders(),
+            },
+          },
         );
+
+        if (response.operacaoFinalizada === false) {
+          throw new Error(
+            response.mensagem?.detalhe || "Falha ao buscar treinos.",
+          );
+        }
+
+        if (response.operacaoFinalizada === false) {
+          throw new Error(
+            response.mensagem?.detalhe ||
+              response.mensagem?.msg ||
+              "Falha ao buscar treinos.",
+          );
+        }
+
+        const dadosOriginais = response.data?.result || response.data || [];
+        const treinosNormalizados = dadosOriginais.map((t) => ({
+          ...t,
+          id: t._id || t.id,
+        }));
+
+        setLista(treinosNormalizados || []);
+      } catch (err) {
+        console.error("Erro ao buscar treinos:", err);
+      } finally {
+        setIsLoading(false);
       }
-
-      if (response.operacaoFinalizada === false) {
-        throw new Error(
-          response.mensagem?.detalhe ||
-            response.mensagem?.msg ||
-            "Falha ao buscar treinos.",
-        );
-      }
-
-      const dadosOriginais = response.data?.result || response.data || [];
-      const treinosNormalizados = dadosOriginais.map((t) => ({
-        ...t,
-        id: t._id || t.id,
-      }));
-
-      setLista(treinosNormalizados || []);
-    } catch (err) {
-      console.error("Erro ao buscar treinos:", err);
-    } finally {
-      setIsLoading(false);
-    }}
+    }
   }
 
   useEffect(() => {
@@ -207,34 +211,38 @@ function CrudTreino() {
     }));
 
     try {
-      const url = idTreinoEdicao
-        ? `/v1/treinos/${idTreinoEdicao}`
-        : "/v1/treinos";
+      const url = idTreinoEdicao ? `/treinos/${idTreinoEdicao}` : "/treinos";
       const method = idTreinoEdicao ? "PUT" : "POST";
 
       let response = {};
       if (method === "PUT") {
-        response = await api.put(url, {
-          headers: {
-            "Content-Type": "application/json",
-            ...getAuthHeaders(),
+        response = await api.put(
+          "https://servicetreino-unitreino.onrender.com" + url,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              ...getAuthHeaders(),
+            },
+            nome: novoNome,
+            descricao: novaDescricao,
+            duracaoMinutos: Number(novaDuracao),
+            exercicios: formatoExercicios,
           },
-          nome: novoNome,
-          descricao: novaDescricao,
-          duracaoMinutos: Number(novaDuracao),
-          exercicios: formatoExercicios,
-        });
+        );
       } else {
-        response = await api.post(url, {
-          headers: {
-            "Content-Type": "application/json",
-            ...getAuthHeaders(),
+        response = await api.post(
+          "https://servicetreino-unitreino.onrender.com" + url,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              ...getAuthHeaders(),
+            },
+            nome: novoNome,
+            descricao: novaDescricao,
+            duracaoMinutos: Number(novaDuracao),
+            exercicios: formatoExercicios,
           },
-          nome: novoNome,
-          descricao: novaDescricao,
-          duracaoMinutos: Number(novaDuracao),
-          exercicios: formatoExercicios,
-        });
+        );
       }
 
       if (response.operacaoFinalizada === false) {
@@ -279,12 +287,15 @@ function CrudTreino() {
 
   async function handleConfirmarDeletar() {
     try {
-      const response = await api.delete(`/v1/treinos/${idTreinoDeletar}`, {
-        headers: {
-          "Content-Type": "application/json",
-          ...getAuthHeaders(),
+      const response = await api.delete(
+        `https://servicetreino-unitreino.onrender.com/treinos/${idTreinoDeletar}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeaders(),
+          },
         },
-      });
+      );
       if (response.operacaoFinalizada === false) {
         throw new Error(
           response.mensagem?.detalhe ||
@@ -412,13 +423,6 @@ function CrudTreino() {
                     <td>{t.dia || "A definir"}</td>
                     <td>{t.ultima || "Nunca realizado"}</td>
                     <td className="crud-acoes">
-                      <button
-                        className="crud-acao-btn crud-acao-btn--play"
-                        title="Iniciar Treino"
-                        onClick={() => navigate(`/execucao-treino/${t.id}`)}
-                      >
-                        <IcPlay />
-                      </button>
                       <button
                         className="crud-acao-btn crud-acao-btn--edit"
                         aria-label="Editar treino"
