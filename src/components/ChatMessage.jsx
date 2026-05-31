@@ -1,4 +1,6 @@
 import Logo from "./Logo";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 function TypingIndicator() {
   return (
@@ -109,7 +111,10 @@ function ChatMessage({ message }) {
             {onRetry && <RetryButton onRetry={onRetry} />}
           </>
         ) : (
-          <BotText text={conteudo} />
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {/* <BotText text={conteudo} /> */}
+            {conteudo}
+          </ReactMarkdown>
         )}
       </div>
     </div>
