@@ -94,6 +94,16 @@ function SidebarContent({
           <span className="sidebar-nav-emoji">🏋️</span>
           <span>Treinos</span>
         </NavLink>
+
+        <NavLink
+          to="/matriculas"
+          className="sidebar-title-link-new"
+          onClick={onItemClick}
+          disabled={!token}
+        >
+          <span className="sidebar-nav-emoji">🎓</span>
+          <span>Matrículas</span>
+        </NavLink>
       </nav>
 
       <div className="sidebar-history-section"></div>
@@ -222,6 +232,15 @@ function Sidebar({
             onClick={onMobileClose}
           >
             <span className="sidebar-nav-emoji">🏋️</span>
+          </NavLink>
+
+          <NavLink
+            to="/matriculas"
+            className="sidebar-collapsed-nav-item"
+            itle="Matrículas"
+            onClick={onMobileClose}
+          >
+            <span className="sidebar-nav-emoji">🎓</span>
           </NavLink>
         </div>
 
