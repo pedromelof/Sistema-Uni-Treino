@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
 import RecuperarSenha from "./pages/RecuperarSenha";
 
+import Email from "./pages/Email";
 import Home from "./pages/Home";
 import NovoChat from "./pages/NovoChat";
 import Chat from "./pages/Chat";
@@ -37,6 +38,7 @@ function App() {
               <Route path="gerencia-lesoes" element={<CrudLesoes />} />
               <Route path="execucao-treino/:id" element={<ExecucaoTreino />} />
               <Route path="matriculas" element={<Matricula />} />
+              <Route path="emails" element={<Email />} />
             </Route>
           </Routes>
         </BrowserRouter>
