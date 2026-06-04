@@ -17,6 +17,7 @@ import CrudTreino from "./pages/CrudTreino";
 import CrudLesoes from "./pages/CrudLesoes";
 import ExecucaoTreino from "./pages/ExecucaoTreino";
 import Matricula from "./pages/Matricula";
+import Pagamento from "./pages/Pagamento";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
               <Route path="gerencia-lesoes" element={<CrudLesoes />} />
               <Route path="execucao-treino/:id" element={<ExecucaoTreino />} />
               <Route path="matriculas" element={<Matricula />} />
+              <Route path="pagamento" element={<Pagamento />} />
             </Route>
           </Routes>
         </BrowserRouter>

@@ -104,8 +104,17 @@ function SidebarContent({
           <span className="sidebar-nav-emoji">🎓</span>
           <span>Matrículas</span>
         </NavLink>
-      </nav>
 
+        <NavLink
+          to="/pagamento"
+          className="sidebar-title-link-new"
+          onClick={onItemClick}
+          disabled={!token}
+        >
+          <span className="sidebar-nav-emoji">💴</span>
+          <span>Pagamentos</span>
+        </NavLink>
+      </nav>
       <div className="sidebar-history-section"></div>
 
       <div className="sidebar-profile-footer">
